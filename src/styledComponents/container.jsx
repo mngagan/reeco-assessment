@@ -32,14 +32,27 @@ const Container = styled.div`
     padding-bottom: 10px;
   `};
 
-  ${props => props.border && css`
+  ${props => props.border && !props.borderTop && css`
     border : 1px solid lightgrey;
     border-radius : ${props.borderRadius ? props.borderRadius : '5px'};
-      `}
+  `};
 
   ${props => props.width && typeof props.width === 'string' && css`
     width : ${props.width}
+  `};
+
+  ${props => !props.border && props.borderTop && css`
+    border-top : 1px solid lightgrey;
+  `};
+
+  ${props => props.center && css`
+    text-align : center;
+  `};
+
+  ${props => props.right && css`
+    text-align : right
   `}
+
 `
 
 export default Container

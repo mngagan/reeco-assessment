@@ -38,15 +38,28 @@ const Text = styled.span`
 
   ${props => props.space && css`
   padding : 10px
-  `}
+  `};
 
   ${props => props.strike && css`
     text-decoration: line-through; 
-  `}
+  `};
 
   ${props => props.small && css`
     font-size : small
+  `};
+
+  ${props => props.xLarge && css`
+    font-size :  x-large
   `}
+
+  ${props => props.cartcount && css`font-size: smaller;
+    background: lightgreen;
+    border-radius: 25px;
+    padding: 0 5px;
+    position: absolute;
+    left: 27px;
+    top: -5px;`
+  };
 
 `
 

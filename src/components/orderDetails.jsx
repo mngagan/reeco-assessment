@@ -1,24 +1,23 @@
+import { PrinterOutlined, SearchOutlined } from '@ant-design/icons'
+import { Col, Row, Modal } from 'antd'
+import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
-import Container from '../styledComponents/container'
-import { Row, Col } from 'antd'
-import Input from '../styledComponents/input'
-import Button from '../styledComponents/button'
-import Text from '../styledComponents/text'
-import { SearchOutlined, PrinterOutlined } from '@ant-design/icons'
-import Table from '../styledComponents/table'
-import TR from '../styledComponents/tr'
-import TD from '../styledComponents/td'
-import { fetchOrderDetails } from '../utils/fetchOrderDetails'
-import { useSelector, useDispatch } from 'react-redux'
-import { updateLoadingStatus, updateDataFetchedFor, updateFetchedOrderDetails } from '../slice/orderSlice'
-import OrderStatus from './orderStatus'
-import { getPriceWithOffer } from '../utils/getPriceWithOffer'
+import { useDispatch, useSelector } from 'react-redux'
 import AppleImage from '../assets/Apple.png'
 import AvacadoImage from '../assets/Avocado.jpg'
+import { updateDataFetchedFor, updateFetchedOrderDetails, updateLoadingStatus } from '../slice/orderSlice'
+import Button from '../styledComponents/button'
+import Container from '../styledComponents/container'
 import Image from '../styledComponents/img'
-import { motion } from 'framer-motion'
-
-
+import Input from '../styledComponents/input'
+import Table from '../styledComponents/table'
+import TD from '../styledComponents/td'
+import Text from '../styledComponents/text'
+import TR from '../styledComponents/tr'
+import { fetchOrderDetails } from '../utils/fetchOrderDetails'
+import AddItem from './addItem'
+import OrderStatus from './orderStatus'
+import SearchBar from './searchBar'
 
 export const OrderDetails = (props) => {
   const dataFetchedFor = useSelector(state => state.orders.dataFetchedFor)
@@ -27,16 +26,23 @@ export const OrderDetails = (props) => {
   const [searchText, setSearchText] = useState('')
   const dispatch = useDispatch()
   const [cart, setCart] = useState([])
+  const [showModal, setShowModal] = React.useState(false)
 
   useEffect(() => {
-    if (!searchText.length) {
+    updateFilteredCart()
+  }, [unfilteredCart])
+
+  const updateFilteredCart = (value) => {
+    // let text = value || searchText
+    let text = typeof value === 'string' ? value : searchText
+    if (!text.length) {
       setCart(unfilteredCart)
       return
     }
     setCart(unfilteredCart.filter(item => {
-      return item.name.includes(searchText) || item.brand.includes(searchText)
+      return item.name.includes(text) || item.brand.includes(text)
     }))
-  }, [unfilteredCart, searchText])
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -57,21 +63,16 @@ export const OrderDetails = (props) => {
         <Container space leaveMargin="30px" white>
           <Row gutter={30}>
             <Col span={12}>
-              <Container border borderRadius="20px" width="fit-content" as={motion.div} initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}>
-                <Container >
-                  <Input value={searchText} onChange={e => setSearchText(e.target.value)} placeholder='Search...' width="200px" padLeft />
-                  <SearchOutlined className='search-icon' />
-                </Container>
-              </Container>
+              <SearchBar searchText={searchText} setSearchText={setSearchText} updateFilteredCart={updateFilteredCart} />
             </Col>
             <Col span={12}>
               <Container as={motion.div} initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}>
                 <Row gutter={30} justify='end'>
-                  <Col><Button>Add item</Button></Col>
+                  <Col>
+                    <Button onClick={() => setShowModal(true)}>Add item</Button>
+                  </Col>
                   <Col>
                     <Text heading green pointer>
                       <PrinterOutlined />
@@ -147,9 +148,9 @@ export const OrderDetails = (props) => {
               </Container>
             </Col>
           </Row>
-
         </Container>
       </Container>
+      <AddItem showModal={showModal} setShowModal={setShowModal} />
     </Container>
   </>
 }

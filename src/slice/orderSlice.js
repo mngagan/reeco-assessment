@@ -77,11 +77,22 @@ export const orderSlice = createSlice({
         }
         return eachItem
       })
+    },
+    addProductsToCart: (state, action) => {
+      const { products } = action.payload
+      state.cart = [...state.cart, ...products.map(eachProduct => {
+        eachProduct.missing = false
+        eachProduct.urgent = false
+        eachProduct.approved = true
+        eachProduct.originalPrice = eachProduct.price
+        eachProduct.originalQuantity = eachProduct.quantity
+        return eachProduct
+      })]
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount, updateLoadingStatus, updateDataFetchedFor, updateFetchedOrderDetails, approveItem, updateMissingItem, updateCartAfterEdit } = orderSlice.actions
+export const { increment, decrement, incrementByAmount, updateLoadingStatus, updateDataFetchedFor, updateFetchedOrderDetails, approveItem, updateMissingItem, updateCartAfterEdit, addProductsToCart } = orderSlice.actions
 
 export default orderSlice.reducer

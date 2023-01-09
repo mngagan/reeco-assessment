@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Button = styled.button`
   /* Adapt the colors based on primary prop */
@@ -15,6 +15,11 @@ const Button = styled.button`
     box-shadow: 0px 0px 10px 0px lightgreen;
     // tranition: 1s all
   }
+  ${props => props.disabled && css`
+    background : lightgrey;
+    border-color : lightgrey;
+    color : white;
+  `}
 `;
 
 export default Button

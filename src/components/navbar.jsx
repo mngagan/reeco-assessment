@@ -12,15 +12,13 @@ export const Navbar = (props) => {
 
   return (
     <>
-      <Container primary as={motion.div} initial={{ minHeight: '1000px' }}
-        animate={{ minHeight: '30px' }}
-        transition={{ duration: 0.3 }} >
-        <Container navbar leaveMargin >
+      <Container primary  >
+        <Container navbar leaveMargin>
           <Row>
             <Col span={12}>
               <Row gutter={30}>
                 <Col>
-                  <Text as={motion.div} initial={{ x: 100, fontSize: '300px', y: 100 }} animate={{ x: 0, fontSize: '17px', y: 0 }} transition={{ duration: 0.3 }} white bold>Reeco</Text>
+                  <Text white bold>Reeco</Text>
                 </Col>
                 {['Store', 'Orders', 'Analytics'].map((key, index) => <Col key={key}>
                   <Text as={motion.div} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} white>{key}</Text>
@@ -32,13 +30,13 @@ export const Navbar = (props) => {
                 <Row gutter={30} justify={'end'}>
                   <Col>
                     <Container as={motion.div} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-                      <ShoppingCartOutlined />
-                      <Text white bold>{cartLength}</Text>
+                      <Text bold white heading><ShoppingCartOutlined /></Text>
+                      <Text white bold cartcount>{cartLength}</Text>
                     </Container>
                   </Col>
                   <Col>
                     <Container as={motion.div} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-                      <Text white bold>{`Hello James ▽`}</Text>
+                      <Text white="true" bold="true">{`Hello James ▽`}</Text>
                     </Container>
                   </Col>
                 </Row>

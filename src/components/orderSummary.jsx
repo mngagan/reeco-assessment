@@ -1,12 +1,11 @@
+import { FileImageOutlined, FullscreenExitOutlined, FundOutlined, PicLeftOutlined, RadiusBottomleftOutlined } from '@ant-design/icons'
+import { Col, Row, Space } from 'antd'
+import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import Container from '../styledComponents/container'
 import Text from '../styledComponents/text'
-import { Space, Divider, Row, Col } from 'antd'
-import { fetchOrderSummary } from '../utils/fetchOrderSummary'
-import { useSelector } from 'react-redux'
-import { RadiusBottomleftOutlined, PicLeftOutlined, FileImageOutlined, FundOutlined, FullscreenExitOutlined } from '@ant-design/icons'
 import { getPriceWithOffer } from '../utils/getPriceWithOffer'
-import { motion } from 'framer-motion'
 
 
 export const OrderSummary = (props) => {

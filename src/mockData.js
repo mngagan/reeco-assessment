@@ -51,7 +51,7 @@ export const orderDetails = {
       originalQuantity: 12,
       status: [],
       category: 'fruit',
-      approved: false,
+      approved: true,
       missing: false,
       urgent: false,
       reasons: ['Quality is not the same']
@@ -77,7 +77,7 @@ export const orderDetails = {
       quantity: 18,
       status: [],
       category: 'fruit',
-      approved: false,
+      approved: true,
       missing: false,
       urgent: false,
       reasons: ['Price is not the same']
@@ -110,4 +110,27 @@ export const orderDetails = {
   ],
   department: '323-545-678',
   status: 'Awaiting your approval'
+}
+
+export const getCatalog = (value = '') => {
+  let arr = new Array(5).fill('1')
+  if (!(['fish', 'beef', 'chicken'].includes((value.toString()).toLowerCase()))) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => { resolve([]) }, 1000)
+    })
+  }
+  let result = arr.map((key, index) => {
+    return {
+      uuid : crypto.randomUUID(),
+      name: `${value}, Ground free fall, 80% Lean, Fresh ${value}, Ground dish ${index + 1}`,
+      brand: 'Hormel black labelmany',
+      unit: '6 * 1LB',
+      price: Math.floor(Math.random() * (15 - 6 + 1)) + 6,
+      quantity: 0,
+      reasons : []
+    }
+  })
+  return new Promise((resolve, reject) => {
+    setTimeout(() => { resolve(result) }, 1000)
+  })
 }
