@@ -1,5 +1,5 @@
-import { PrinterOutlined, SearchOutlined } from "@ant-design/icons";
-import { Col, Row, Modal } from "antd";
+import { PrinterOutlined } from "@ant-design/icons";
+import { Col, Row } from "antd";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,12 +8,11 @@ import AvacadoImage from "../assets/Avocado.jpg";
 import {
   updateDataFetchedFor,
   updateFetchedOrderDetails,
-  updateLoadingStatus,
+  updateLoadingStatus
 } from "../redux/orderSlice";
 import Button from "../styledComponents/button";
 import Container from "../styledComponents/container";
 import Image from "../styledComponents/img";
-import Input from "../styledComponents/input";
 import Table from "../styledComponents/table";
 import TD from "../styledComponents/td";
 import Text from "../styledComponents/text";
@@ -58,7 +57,7 @@ export const OrderDetails = (props) => {
       dispatch(updateDataFetchedFor({ type: "orderDetails", value: true }));
       dispatch(updateFetchedOrderDetails(response));
     }
-    !loadingStatus.OrderDetails && !dataFetchedFor.OrderDetails && fetchData(); //fetching this info only once
+    fetchData();
   }, []);
 
   return (

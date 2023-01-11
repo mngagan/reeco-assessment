@@ -3,7 +3,6 @@ import { Navbar } from './components/navbar';
 import { OrderDetails } from './components/orderDetails';
 import { OrderSummary } from './components/orderSummary';
 import { TitleBar } from './components/titlebar';
-import useWindowSize from './customHooks/useWindowsResize';
 import Container from './styledComponents/container';
 import './App.css';
 
