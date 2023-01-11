@@ -16,6 +16,7 @@ import Text from '../styledComponents/text'
 import TR from '../styledComponents/tr'
 import { fetchOrderDetails } from '../utils/fetchOrderDetails'
 import AddItem from './addItem'
+import LoadingPlaceHolder from './loadingPlaceholder'
 import OrderStatus from './orderStatus'
 import SearchBar from './searchBar'
 
@@ -56,7 +57,7 @@ export const OrderDetails = (props) => {
   }, [])
 
   return <>
-    <Container leaveMargin paddingTop as={motion.div} initial={{ opacity: 0 }}
+    <Container leaveMargin space paddingBottom as={motion.div} initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.7 }}>
       <Container border bgwhite>
@@ -69,7 +70,7 @@ export const OrderDetails = (props) => {
               <Container as={motion.div} initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}>
-                <Row gutter={30} justify='end'>
+                {!loadingStatus.orderDetails && <Row gutter={30} justify='end'>
                   <Col>
                     <Button onClick={() => setShowModal(true)}>Add item</Button>
                   </Col>
@@ -78,7 +79,7 @@ export const OrderDetails = (props) => {
                       <PrinterOutlined />
                     </Text>
                   </Col>
-                </Row>
+                </Row>}
               </Container>
             </Col>
             <Col span={24}>
@@ -110,8 +111,8 @@ export const OrderDetails = (props) => {
                       </TD>
                     </TR>
                   </thead>
-                  <tbody >
-                    {(cart || []).map(item => <TR key={item.uuid}>
+                  <tbody>
+                    {!!!loadingStatus.orderDetails ? (cart || []).map(item => <TR key={item.uuid}>
                       <TD width={'5%'} borderBottom>
                         <Image src={item?.category === 'fruit' ? AppleImage : AvacadoImage} height='50' width='50' />
                       </TD>
@@ -142,7 +143,9 @@ export const OrderDetails = (props) => {
                       <TD width={'25%'} borderBottom background="#f0f0f0">
                         <OrderStatus item={item} />
                       </TD>
-                    </TR>)}
+                    </TR>) : ([1, 2, 3, 4, 5].map(item => (<TR key={item}>
+                      {[1, 2, 3, 4, 5, 6, 7].map(elem => (<TD key={elem} space><Container><LoadingPlaceHolder /></Container></TD>))}
+                    </TR>)))}
                   </tbody>
                 </Table>
               </Container>

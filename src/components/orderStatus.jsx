@@ -102,7 +102,6 @@ const OrderStatus = ({ item }) => {
     }
   }
 
-
   return (
     <Container style={{ paddingLeft: '10px', paddingRight: '10px' }}>
       <Row gutter={10}>

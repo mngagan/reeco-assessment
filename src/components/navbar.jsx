@@ -12,7 +12,7 @@ export const Navbar = (props) => {
 
   return (
     <>
-      <Container primary  >
+      <Container primary ref={props.navbarRef}>
         <Container navbar leaveMargin>
           <Row>
             <Col span={12}>

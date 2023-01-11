@@ -8,7 +8,8 @@ const initialState = {
   department: '',
   status: '',
   loadingStatus: {},
-  dataFetchedFor: {}
+  dataFetchedFor: {},
+  isOrderApproved: false,
 }
 
 export const orderSlice = createSlice({
@@ -88,11 +89,15 @@ export const orderSlice = createSlice({
         eachProduct.originalQuantity = eachProduct.quantity
         return eachProduct
       })]
+    },
+    approveOrder: (state, action) => {
+      state.status = 'Approved'
+      state.isOrderApproved = true
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount, updateLoadingStatus, updateDataFetchedFor, updateFetchedOrderDetails, approveItem, updateMissingItem, updateCartAfterEdit, addProductsToCart } = orderSlice.actions
+export const { increment, decrement, incrementByAmount, updateLoadingStatus, updateDataFetchedFor, updateFetchedOrderDetails, approveItem, updateMissingItem, updateCartAfterEdit, addProductsToCart, approveOrder } = orderSlice.actions
 
 export default orderSlice.reducer

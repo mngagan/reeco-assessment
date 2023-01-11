@@ -2,6 +2,7 @@ import { orderDetails } from "../mockData"
 
 export const fetchOrderDetails = () => {
   return new Promise((resolve, reject) => {
+    // orderDetails.cart = orderDetails.cart.map(item => {
     orderDetails.cart = orderDetails.cart.map(item => {
       return {
         ...item,
@@ -10,8 +11,8 @@ export const fetchOrderDetails = () => {
         uuid: crypto.randomUUID()
       }
     })
-    resolve(orderDetails)
     setTimeout(() => {
-    }, 1000);
+      resolve(orderDetails)
+    }, 1500);
   })
 }

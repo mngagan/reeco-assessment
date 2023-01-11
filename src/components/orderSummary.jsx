@@ -1,12 +1,13 @@
 import { FileImageOutlined, FullscreenExitOutlined, FundOutlined, PicLeftOutlined, RadiusBottomleftOutlined } from '@ant-design/icons'
-import { Col, Row, Space } from 'antd'
+import { Row, Space } from 'antd'
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Container from '../styledComponents/container'
 import Text from '../styledComponents/text'
 import { getPriceWithOffer } from '../utils/getPriceWithOffer'
-
+import Col from '../styledComponents/col'
+import LoadingPlaceHolder from './loadingPlaceholder'
 
 export const OrderSummary = (props) => {
 
@@ -15,7 +16,8 @@ export const OrderSummary = (props) => {
   const shippingDate = useSelector(state => state.orders.shippingDate)
   const department = useSelector(state => state.orders.department)
   const status = useSelector(state => state.orders.status)
-
+  const isLoading = useSelector(state => state.orders.loadingStatus.orderDetails)
+  const isOrderApproved = useSelector(state => state.orders.isOrderApproved)
   const [total, setTotal] = useState(0)
 
   useEffect(() => {
@@ -28,8 +30,8 @@ export const OrderSummary = (props) => {
 
   return (
     <Container leaveMargin paddingTop as={motion.div} initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 0.35 }}>
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.35 }}>
       <Container border bgwhite>
         <Container space leaveMargin={'30px'} >
           <Row gutter={10}>
@@ -40,42 +42,42 @@ export const OrderSummary = (props) => {
                 <Col>
                   <Text small>Supplier</Text>
                 </Col>
-                <Col>
+                {!!!isLoading ? <Col>
                   <Text bold primary>{supplier}</Text>
-                </Col>
+                </Col> : <LoadingPlaceHolder />}
               </Container>
             </Col>
-            <Col span={4}>
+            <Col span={4} borderLeft>
               <Container as={motion.div} initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.45 }}><Col>
                   <Text small>Shipping date</Text>
                 </Col>
-                <Col>
+                {!!!isLoading ? <Col>
                   <Text bold primary>{shippingDate}</Text>
-                </Col>
+                </Col> : <LoadingPlaceHolder />}
               </Container>
             </Col>
-            <Col span={4}>
+            <Col span={4} borderLeft>
               <Container as={motion.div} initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.50 }}>
+                transition={{ delay: 0.50 }} >
                 <Col>
                   <Text small>Total</Text>
                 </Col>
-                <Col>
+                {!!!isLoading ? <Col>
                   <Text bold primary>{total}</Text>
-                </Col>
+                </Col> : <LoadingPlaceHolder />}
               </Container>
             </Col>
-            <Col span={4}>
+            <Col span={4} borderLeft>
               <Container as={motion.div} initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.55 }}>
+                transition={{ delay: 0.55 }}  >
                 <Col>
                   <Text small>Category</Text>
                 </Col>
-                <Col>
+                {!!!isLoading ? <Col>
                   <Space>
                     <Text bold primary>
                       <RadiusBottomleftOutlined />
@@ -93,31 +95,31 @@ export const OrderSummary = (props) => {
                       <FullscreenExitOutlined />
                     </Text>
                   </Space>
-                </Col>
+                </Col> : <LoadingPlaceHolder />}
               </Container>
             </Col>
-            <Col span={4}>
+            <Col span={4} borderLeft>
               <Container as={motion.div} initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.50 }}>
+                transition={{ delay: 0.50 }} >
                 <Col>
                   <Text small>Department</Text>
                 </Col>
-                <Col>
+                {!!!isLoading ? <Col>
                   <Text bold primary>{department}</Text>
-                </Col>
+                </Col> : <LoadingPlaceHolder />}
               </Container>
             </Col>
-            <Col span={4}>
+            <Col span={4} borderLeft>
               <Container as={motion.div} initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.65 }}>
+                transition={{ delay: 0.65 }} >
                 <Col>
                   <Text small>Status</Text>
                 </Col>
-                <Col>
-                  <Text bold primary>{status}</Text>
-                </Col>
+                {!!!isLoading ? <Col>
+                  <Text bold primary green={isOrderApproved}>{status}</Text>
+                </Col> : <LoadingPlaceHolder />}
               </Container>
             </Col>
           </Row>

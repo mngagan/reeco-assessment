@@ -45,12 +45,21 @@ const Container = styled.div`
     border-top : 1px solid lightgrey;
   `};
 
+  ${props => !props.border && props.borderLeft && css`
+    border-left : 1px solid lightgrey;
+  `};
+
   ${props => props.center && css`
     text-align : center;
   `};
 
   ${props => props.right && css`
-    text-align : right
+    text-align : right;
+  `};
+
+  ${props => props.usedHeight && css`
+    max-height : calc(100% - ${props.usedHeight}px);
+    overflow-y : auto;
   `}
 
 `

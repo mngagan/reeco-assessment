@@ -15,6 +15,7 @@ import TD from "../styledComponents/td";
 import AppleImage from '../assets/Apple.png'
 import AvacadoImage from '../assets/Avocado.jpg'
 import Input from "../styledComponents/input";
+import LoadingPlaceHolder from "./loadingPlaceholder";
 
 const AddItem = ({ showModal, setShowModal }) => {
 
@@ -25,7 +26,19 @@ const AddItem = ({ showModal, setShowModal }) => {
   const [isCatalogEmpty, setIsCatalogEmpty] = React.useState(false)
   const [isCatalogFetched, setIsCatalogFetched] = React.useState(false)
   const [isInReviewMode, setIsInReviewMode] = React.useState(false)
-  React.useEffect(() => { }, [])
+
+  React.useEffect(() => {
+    if (!showModal) {
+      setIsCatalogEmpty(false)
+      setIsCatalogLoading(false)
+      setIsCatalogFetched(false)
+      setIsInReviewMode(false)
+      setCatalog([])
+      setSearchText('')
+    }
+  }, [
+    showModal
+  ])
 
   const handleSearch = async () => {
     setIsCatalogLoading(true)
@@ -65,7 +78,7 @@ const AddItem = ({ showModal, setShowModal }) => {
   return (<>
     <Modal
       open={showModal}
-      title={<Text ellipsis primary bold>{'Add product from Sysco\'s catalog '}</Text>}
+      title={<Text ellipsis primary bold>{'Add product from Sysco\'s catalog'}</Text>}
       onOk={() => { }}
       width={900}
       onCancel={() => { setShowModal(false) }}
@@ -74,8 +87,8 @@ const AddItem = ({ showModal, setShowModal }) => {
       <Container space borderTop>
         <Row gutter={10}>
           <Col span={24}>
-            <Container space>
-              <Text heading>{!isInReviewMode ? 'Search products from Sysco\'s catalog and add quantity' : 'Review before adding products'}</Text>
+            <Container >
+              <Text large>{!isInReviewMode ? 'Search products from Sysco\'s catalog and add quantity' : 'Review before adding products'}</Text>
             </Container>
           </Col>
           {!!!isInReviewMode && <>
@@ -99,19 +112,6 @@ const AddItem = ({ showModal, setShowModal }) => {
             </Row>
           </Col>}
           {
-            isCatalogLoading && <Col span={24}><Row justify={'center'}>
-              <Col span={12}>
-                <Image src={searchProductImage} />
-              </Col>
-              <Col span={13}>
-                <Container center>
-                  <Text green bold xLarge>Loading your product</Text>
-                </Container>
-              </Col>
-            </Row>
-            </Col>
-          }
-          {
             !!!isCatalogLoading && !!isCatalogFetched && !!isCatalogEmpty && <Col span={24}>
               <Row span={12} justify='center'>
                 <Col span={12}>
@@ -126,53 +126,57 @@ const AddItem = ({ showModal, setShowModal }) => {
             </Col>
           }
           {
-            !!!isCatalogLoading && !!!isCatalogEmpty && !!catalog.length && <Row>
-              <Col span={24}><Container space><Table>
-                <thead>
-                  <TR background={'lightgrey'}>
-                    <TD width={'5px'} borderTop borderBottom radius='top-left'></TD>
-                    <TD space='2px' width={'25%'} borderTop borderBottom>
-                      <Text primary>Product name</Text>
-                    </TD>
-                    <TD width={'25%'} borderTop borderBottom>
-                      <Text primary>Brand</Text>
-                    </TD>
-                    <TD width={'15%'} borderTop borderBottom>
-                      <Text primary>Packing</Text>
-                    </TD>
-                    <TD width={'15%'} borderTop borderBottom>
-                      <Text primary>Price($)</Text>
-                    </TD>
-                    <TD width={'15%'} borderTop borderBottom radius='top-right'>
-                      <Text primary>Qt.</Text>
-                    </TD>
-                  </TR>
-                </thead>
-                <tbody >
-                  {(catalog || []).filter(item => !isInReviewMode ? true : item.quantity > 0).map(item => <TR key={item.uuid}>
-                    <TD width={'5%'} borderBottom >
-                      <Image src={item?.category === 'fruit' ? AppleImage : AvacadoImage} height='50' width='50' />
-                    </TD>
-                    <TD space width={'35%'} borderBottom >
-                      <Text primary>{item.name}</Text>
-                    </TD>
-                    <TD width={'10%'} borderBottom>
-                      <Text primary>{item.brand}</Text>
-                    </TD>
-                    <TD width={'10%'} borderBottom>
-                      <Text primary>{`${item.unit}`}</Text>
-                    </TD>
-                    <TD width={'10%'} borderBottom>
-                      {/* <Text primary bold>{item.quantity}</Text> */}
-                      <Input disabled={isInReviewMode} forEdit min={0} type='number' value={item.price} onChange={e => handleInputChange({ item, type: 'price', value: e.target.value })}></Input>
-                    </TD>
-                    <TD width={'10%'} borderBottom>
-                      <Input disabled={isInReviewMode} forEdit min={0} type='number' placeholder="-" value={item.quantity} onChange={e => handleInputChange({ item, type: 'quantity', value: e.target.value })}></Input>
-                    </TD>
-                  </TR>)}
-                </tbody>
-              </Table>
-              </Container>
+            (isCatalogLoading || (!!!isCatalogEmpty && !!catalog.length)) && <>
+              <Col span={24}>
+                <Container space>
+                  <Table>
+                    <thead>
+                      <TR background={'lightgrey'}>
+                        <TD width={'5px'} borderTop borderBottom radius='top-left'></TD>
+                        <TD space='2px' width={'25%'} borderTop borderBottom>
+                          <Text primary>Product name</Text>
+                        </TD>
+                        <TD width={'25%'} borderTop borderBottom>
+                          <Text primary>Brand</Text>
+                        </TD>
+                        <TD width={'15%'} borderTop borderBottom>
+                          <Text primary>Packing</Text>
+                        </TD>
+                        <TD width={'15%'} borderTop borderBottom>
+                          <Text primary>Price($)</Text>
+                        </TD>
+                        <TD width={'15%'} borderTop borderBottom radius='top-right'>
+                          <Text primary>Qt.</Text>
+                        </TD>
+                      </TR>
+                    </thead>
+                    <tbody >
+                      {!!!isCatalogLoading ? (catalog || []).filter(item => !isInReviewMode ? true : item.quantity > 0).map(item => <TR key={item.uuid}>
+                        <TD width={'5%'} borderBottom borderLeft>
+                          <Image src={item?.category === 'fruit' ? AppleImage : AvacadoImage} height='50' width='50' />
+                        </TD>
+                        <TD space width={'35%'} borderBottom >
+                          <Text primary>{item.name}</Text>
+                        </TD>
+                        <TD width={'10%'} borderBottom>
+                          <Text primary>{item.brand}</Text>
+                        </TD>
+                        <TD width={'10%'} borderBottom>
+                          <Text primary>{`${item.unit}`}</Text>
+                        </TD>
+                        <TD width={'10%'} borderBottom>
+                          {/* <Text primary bold>{item.quantity}</Text> */}
+                          <Input disabled={isInReviewMode} forEdit min={0} type='number' value={item.price} onChange={e => handleInputChange({ item, type: 'price', value: e.target.value })}></Input>
+                        </TD>
+                        <TD width={'10%'} borderBottom borderRight>
+                          <Input disabled={isInReviewMode} forEdit min={0} type='number' placeholder="-" value={item.quantity} onChange={e => handleInputChange({ item, type: 'quantity', value: e.target.value })}></Input>
+                        </TD>
+                      </TR>) : ([1, 2, 3, 4, 5].map(item => (<TR key={item}>
+                        {[1, 2, 3, 4, 5, 6].map(elem => (<TD key={elem} space><Container><LoadingPlaceHolder /></Container></TD>))}
+                      </TR>)))}
+                    </tbody>
+                  </Table>
+                </Container>
               </Col>
               <Col span={24}>
                 <Row>
@@ -194,9 +198,8 @@ const AddItem = ({ showModal, setShowModal }) => {
                   </Col>
                 </Row>
               </Col>
-            </Row>
+            </>
           }
-
         </Row>
       </Container>
     </Modal>
