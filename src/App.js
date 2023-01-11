@@ -1,17 +1,14 @@
-import React from 'react'
-import './App.css';
-// import { Header } from './components/headerComponent/header';
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react';
 import { Navbar } from './components/navbar';
-import { TitleBar } from './components/titlebar';
-import { OrderSummary } from './components/orderSummary';
 import { OrderDetails } from './components/orderDetails';
-import Container from './styledComponents/container';
+import { OrderSummary } from './components/orderSummary';
+import { TitleBar } from './components/titlebar';
 import useWindowSize from './customHooks/useWindowsResize';
+import Container from './styledComponents/container';
+import './App.css';
 
 function App() {
 
-  const { windowHeight } = useWindowSize()
   const navbarRef = React.useRef(null)
   const titlebarRef = React.useRef(null)
 
@@ -23,7 +20,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className='App'>
       <Navbar navbarRef={navbarRef} />
       <TitleBar titlebarRef={titlebarRef} />
       <Container usedHeight={getHeight()}>

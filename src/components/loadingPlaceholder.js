@@ -1,7 +1,6 @@
-import React from "react";
 import { motion } from "framer-motion";
+import React from "react";
 import Container from "../styledComponents/container";
-import styled from "styled-components";
 
 const LoadingPlaceHolder = (props) => {
     return (<Container as={motion.div} space
